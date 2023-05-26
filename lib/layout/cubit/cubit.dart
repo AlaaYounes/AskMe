@@ -5,7 +5,7 @@ import 'package:askme/screens/chat_screen/ChatScreen.dart';
 import 'package:askme/screens/chat_screen/groupchat.dart';
 import 'package:askme/screens/posts_screen/PostsScreen.dart';
 import 'package:askme/screens/registration_screen/sign%20in/login_screen.dart';
-import 'package:askme/screens/registration_screen/signup_screen/register_Screen.dart';
+import 'package:askme/carbage%20screens/register_Screen.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +16,7 @@ import '../../screens/authScreen.dart';
 import '../../screens/home_screen/homeScreen.dart';
 import '../../screens/meeting_screen/SessionScreen.dart';
 
+import '../../shared/component/Constants.dart';
 import 'app_states.dart';
 import 'package:flutter/material.dart';
 
@@ -76,11 +77,23 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppMoveToSigninScreenState());
   }
 
-  void MoveToRegisterScreen(context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => SignUpScreen()));
-    emit(AppMoveToRegisterScreenState());
-  }
+  Future<void> getUserData(String userId) async {
+
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .get();
+
+    Map<String, dynamic> userdata = snapshot.data() as Map<String, dynamic>;
+    data=userdata;
+
+    }
+
+  // void MoveToRegisterScreen(context) {
+  //   Navigator.push(
+  //       context, MaterialPageRoute(builder: (context) => SignUpScreen()));
+  //   emit(AppMoveToRegisterScreenState());
+  // }
   // XFile? image = XFile("");
   File? file;
   // void gg() async {

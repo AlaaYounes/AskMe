@@ -1,3 +1,4 @@
+import 'package:askme/screens/profile%20Screen.dart';
 import 'package:askme/shared/component/Constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,7 +19,7 @@ class ChatRoom extends StatelessWidget {
     if (messageController.text.isNotEmpty) {
       Map<String, dynamic> messages = {
         "username": data['username'],
-        "sendby": _auth.currentUser!.email,
+        "sendby": data['email'],
         "message": messageController.text,
         "time": FieldValue.serverTimestamp(),
       };
@@ -41,8 +42,29 @@ class ChatRoom extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading:IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back)),
         backgroundColor: HexColor('FE8235'),
-        title: Text('${receiver['username']}'),
+        title: Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfileScreen(receiver)));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle
+                ),
+                width: 55,
+                height: 55,
+                child: Image(
+                  image: AssetImage('images/avatar.png'),
+                ),
+              ),
+            ),
+            SizedBox(width: 10,),
+            Text('${receiver['username']}')
+          ],
+        ),
       ),
       body: SafeArea(
         child: ListView(

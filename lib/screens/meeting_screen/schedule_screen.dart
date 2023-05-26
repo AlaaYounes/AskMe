@@ -11,6 +11,8 @@ class ScheduleScreen extends StatelessWidget {
   var meetingNameController = TextEditingController();
   var dateController = TextEditingController();
   var timeController = TextEditingController();
+  var time;
+  var date;
   Auth auth = Auth();
   @override
   Widget build(BuildContext context) {
@@ -108,6 +110,7 @@ class ScheduleScreen extends StatelessWidget {
                         context: context,
                         initialTime: TimeOfDay.now(),
                       ).then((value) {
+                        time =value!.format(context);
                         timeController.text = value!.format(context).toString();
                       });
                     }),
@@ -149,6 +152,7 @@ class ScheduleScreen extends StatelessWidget {
                               firstDate: DateTime.now(),
                               lastDate: DateTime.parse('2050-10-01'))
                           .then((value) {
+                        date = DateFormat('yyyy-MM-dd').format(value!);
                         dateController.text = DateFormat('yyyy-MM-dd').format(value!);
                       });
                     }),
@@ -167,6 +171,10 @@ class ScheduleScreen extends StatelessWidget {
                         meetingID: roomID,
                         date: dateController.text,
                         time: timeController.text);
+
+                    String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+                    String formattedTime = DateFormat('HH:mm:ss').format(time);
+
                     AwesomeNotifications().createNotification(
                       content: NotificationContent(
                         id: 1,

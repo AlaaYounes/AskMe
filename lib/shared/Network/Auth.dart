@@ -2,11 +2,13 @@
 import 'dart:io';
 
 import 'package:askme/layout/askMe_layout.dart';
-import 'package:askme/screens/registration_screen/signup_screen/register_Screen.dart';
+import 'package:askme/carbage%20screens/register_Screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../screens/authScreen.dart';
 import '../../screens/registration_screen/sign in/login_screen.dart';
@@ -20,6 +22,53 @@ class Auth {
   }
 
   User? get user => firebaseAuth.currentUser!;
+
+
+  Future SignUp({
+    context,
+    required String email,
+    required String name,
+    required String password,
+    required String job,
+    String? imageURL,
+
+  }) async {
+
+    try{
+
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      User? user = userCredential.user;
+
+      try {
+
+        await   FirebaseFirestore.instance.
+        collection('users')
+            .doc(user!.uid)
+            .set({'email':email,'username': name, 'uid': user.uid,'password': password,'job': job , 'profilePhoto': imageURL});
+
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(
+          content:  Center(
+              child: Text(
+                'Sign up successfully, You can log in now !',
+              )),
+          padding: EdgeInsets.all(10),
+        ));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
+      }
+      on FirebaseAuthException catch (e){
+        print(e.toString());
+      }
+      DocumentSnapshot snapshot =
+      await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
+      data = snapshot.data() as Map<String, dynamic>;
+    }catch(error){
+      print(error.toString());
+    }
+  }
 
 
   Future<void> SigninWithEmailAndPassword({
@@ -164,6 +213,21 @@ class Auth {
     await imageFile.writeAsBytes(imageData.buffer.asUint8List());
 
     return imagePath;
+  }
+
+  Future<String> uploadImageToFirebase(image) async {
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    try {
+      TaskSnapshot snapshot = await FirebaseStorage.instance
+          .ref()
+          .child('images/$fileName')
+          .putFile(image);
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+      return downloadUrl;
+    } catch (e) {
+      print(e.toString());
+      return "error";
+    }
   }
 
 }

@@ -34,15 +34,15 @@ class ChatScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.0),
                       color: Colors.grey,
                     ),
-                    child: Container(
-                      height: 40.0,
-                      child: Row(
-                        children: [
-                          Icon(Icons.search),
-                          Text('Search'),
-                        ],
-                      ),
-                    ),
+                    // child: Container(
+                    //   height: 40.0,
+                    //   child: Row(
+                    //     children: [
+                    //       Icon(Icons.search),
+                    //       Text('Search'),
+                    //     ],
+                    //   ),
+                    // ),
                   ),
                 ),
                 SizedBox(
@@ -129,25 +129,9 @@ class ChatScreen extends StatelessWidget {
               SizedBox(
                 width: 10.0,
               ),
-              Stack(
-                alignment: AlignmentDirectional.bottomEnd,
-                children: [
-                  CircleAvatar(
-                    radius: 27.0,
-                    backgroundImage: NetworkImage(
-                        'https://scontent.faly1-2.fna.fbcdn.net/v/t1.6435-9/188757593_4001473379942215_1647875222541759424_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeFX29fx-gAophuYVpW9kZTyi-lWZBDvenmL6VZkEO96eV7amnq2M8tSnDKcTt6LkbLZYpdTBkfuM4wZJzmrxGCl&_nc_ohc=zj_QIGs_LoUAX9AKUQX&tn=aISaGu27uXmP8fkb&_nc_ht=scontent.faly1-2.fna&oh=00_AfB4p3nWAIWw6f4WY1rQzdc6QXNJjlrv8GxPS0RZp_f5aA&oe=640B4DFC'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                      bottom: 3.0,
-                      end: 3.0,
-                    ),
-                    child: CircleAvatar(
-                      radius: 7.0,
-                      backgroundColor: Colors.green,
-                    ),
-                  )
-                ],
+              CircleAvatar(
+                radius: 27.0,
+                backgroundImage: AssetImage('images/avatar.png'),
               ),
               SizedBox(
                 width: 10.0,

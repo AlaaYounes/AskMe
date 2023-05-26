@@ -220,16 +220,21 @@ import 'package:hexcolor/hexcolor.dart';
 //   );
 // }
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:path/path.dart';
 
 
 import '../../shared/Network/Auth.dart';
 import 'package:intl/intl.dart';
 
+import '../profile Screen.dart';
+
 class PostsScreen extends StatelessWidget {
   @override
 
   Auth auth =Auth();
+
   Widget build(BuildContext context) {
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -310,6 +315,8 @@ class PostsScreen extends StatelessWidget {
 }
 
 Widget buildPost({required Map<String, dynamic> post, context, index, time, date}) {
+  var width = MediaQuery.of(context).size.width;
+  var height = MediaQuery.of(context).size.height;
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 15),
     child: Column(
@@ -320,64 +327,69 @@ Widget buildPost({required Map<String, dynamic> post, context, index, time, date
           children: [
             CircleAvatar(
               child: Image(
-                image: NetworkImage(
-                    'https://cdn-icons-png.flaticon.com/512/706/706807.png'),
+                image: AssetImage('images/avatar.png'),
               ),
               radius: 25,
             ),
             SizedBox(
               width: 10,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "${post['username']}",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: HexColor('573926'),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  """${post['text']}""",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: HexColor('573926'),
-                  ),
-                  maxLines: 10,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
+            Expanded(
+              child: Container(
+                width: width,
+                height: height,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${date}',
+                      "${post['username']}",
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 18,
                         color: HexColor('573926'),
-
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 50),
-                    Positioned(
-                      child: Text(
-                        '${time}',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: HexColor('707070'),
-                        ),
-                        textAlign: TextAlign.center,
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      """${post['text']}""",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: HexColor('573926'),
                       ),
+                      maxLines: 10,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          '${date}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: HexColor('573926'),
+
+                          ),
+                        ),
+                        SizedBox(width: 50),
+                        Positioned(
+                          child: Text(
+                            '${time}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: HexColor('707070'),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ],
         ),

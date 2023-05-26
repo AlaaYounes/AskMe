@@ -103,8 +103,8 @@ class _ChatScreen extends State<GroupChat> {
                       messageTextController.clear();
                       _firestore.collection('messages').add({
                         'text': messagetext,
-                        // 'sender': signdInUser.displayName,
-                        'sender': data['username'],
+                        'senderName': data['username'],
+                        'sender': data['email'],
 
                         'time': FieldValue.serverTimestamp(),
                       });
@@ -149,10 +149,12 @@ class MessageStreamBuilder extends StatelessWidget {
         for (var message in messages) {
           final messageText = message.get('text');
           final messageSender = message.get('sender');
-          final currentUser = signdInUser.displayName;
+          // final senderName = message.get('senderName');
+          final currentUser = signdInUser.email;
 
           final messageWidget = MessageLine(
             sender: messageSender,
+            // name: senderName,
             text: messageText,
             isMe: currentUser == messageSender,
           );
@@ -175,6 +177,7 @@ class MessageLine extends StatelessWidget {
       : super(key: key);
   final String? sender;
   final String? text;
+  // final String? name;
   final bool isMe;
   @override
   Widget build(BuildContext context) {

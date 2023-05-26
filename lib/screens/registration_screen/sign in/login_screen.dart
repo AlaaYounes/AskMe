@@ -1,7 +1,6 @@
 import 'package:askme/layout/cubit/cubit.dart';
 import 'package:askme/screens/authScreen.dart';
-import 'package:askme/screens/registration_screen/sign%20in/cubit/lognin_cubit.dart';
-import 'package:askme/screens/registration_screen/sign%20in/cubit/login_states.dart';
+import 'package:askme/screens/registration_screen/signup_screen/registerscreen.dart';
 import 'package:askme/shared/component/component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-
 import '../../../layout/cubit/app_states.dart';
 import '../../../shared/Network/Auth.dart';
 import '../../../shared/component/Constants.dart';
@@ -152,7 +150,8 @@ class LoginScreen extends StatelessWidget {
                               SizedBox(width: 10,),
                               TextButton(
                                 onPressed: () {
-                                  cubit.MoveToRegisterScreen(context);
+                                  // cubit.MoveToRegisterScreen(context);
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> SignUpScreen()));
                                 },
                                 child: Text(
                                   'Sign Up Now',
